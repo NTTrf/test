@@ -1,0 +1,62 @@
+PFont myFont;
+PImage img[] = new PImage[53];
+ 
+void setup() {
+  int i = 0;
+  String str;
+  background(255);
+  size(650, 480);
+  fill(0, 0, 0);
+  smooth();
+  noStroke();
+  frameRate(50);
+  myFont = createFont("Meiryo", 24, true);
+  textFont(myFont);
+  while(i < 53) {
+    str = "images/" + str(i + 1) + ".png";
+    img[i] = loadImage(str);
+    i++;
+  }
+}
+ 
+int cardNum = 4;
+boolean[] clicked = new boolean[cardNum];
+int[] cards = {4, 22, 19, 51};
+int bingo = 22;
+float imageWidth = 100;
+float imageHeight = imageWidth * (3 / 2.0);
+int[] imageX = {50, 200, 350, 500};
+int[] imageY = {100, 100, 100, 100};
+ 
+void draw() {
+  int i = 0;
+  background(255);
+ 
+  while(i < cardNum) {
+    int c = cards[i];
+    if(clicked[i]) {
+      image(img[c], imageX[i], imageY[i], imageWidth, imageHeight);
+      if(c == bingo) {
+        fill(255, 0, 0);
+        text("( ◠‿◠ )☝当たりだ", 260, 50);
+        noLoop();
+      }
+    }
+    else {
+      image(img[52], imageX[i], imageY[i], imageWidth, imageHeight);
+    }
+    i++;
+  }
+  image(img[bingo], imageX[1] + 75, imageY[0] + 200, imageWidth, imageHeight);
+}
+ 
+void mousePressed(){
+  int i = 0;
+  while(i < cardNum) {
+    if(mouseX >= imageX[i] && mouseX <= imageX[i] + imageWidth &&
+       mouseY >= imageY[i] && mouseY <= imageY[i] + imageHeight) {
+      clicked[i] = true;
+    }
+    i++;
+  }
+}
